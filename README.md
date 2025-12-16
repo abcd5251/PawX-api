@@ -1,6 +1,9 @@
-# Foxhole API — Quickstart Guide
+# PawXAI API — Quickstart Guide
 
 This document is a concise, easy-to-follow description of the Foxhole API. It covers authentication, base URL, available endpoints, required/optional parameters, and trimmed examples so you can get productive quickly.
+
+# Websocket (Realtime Twitter Data) API
+Please Refer to [WEBSOCKET.md](WEBSOCKET.md) for more details.
 
 ## Key Capabilities
 
