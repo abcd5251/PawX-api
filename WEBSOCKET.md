@@ -38,7 +38,7 @@ To stop receiving updates:
 
 ## Message Types
 
-### User Update Message
+### 1. User Update Message
 
 When a subscribed user posts a tweet or updates their profile, you'll receive:
 
@@ -88,6 +88,94 @@ When a subscribed user posts a tweet or updates their profile, you'll receive:
 }
 ```
 
+### 2. User Full Tweet Message (API Users Only)
+
+After the initial `user-update` message, API users **may** receive an enhanced message with full tweet details. This message is sent when:
+
+- The tweet text is truncated
+- The tweet is a reply (includes the replied-to tweet)
+- The tweet quotes another tweet (includes the quoted tweet)
+
+```json
+{
+  "type": "user-full-tweet",
+  "data": {
+    "userId": "2201704636",
+    "status": {
+      "created_at": "Mon Dec 16 11:33:09 +0000 2025",
+      "id_str": "2000891948434120849",
+      "full_text": "@alliekmiller aaaa",
+      "truncated": false,
+      "user": {
+        "id_str": "2201704636",
+        "name": "bunela",
+        "screen_name": "yqffz56498982"
+      },
+      "entities": {
+        "hashtags": [],
+        "symbols": [],
+        "urls": [],
+        "user_mentions": [
+          {
+            "screen_name": "alliekmiller",
+            "name": "Allie K. Miller",
+            "id_str": "39289455",
+            "indices": [0, 13]
+          }
+        ]
+      },
+      "in_reply_to_status_id_str": "2000671547380404606",
+      "in_reply_to_user_id_str": "39289455",
+      "in_reply_to_screen_name": "alliekmiller",
+      "retweet_count": 0,
+      "favorite_count": 0,
+      "lang": "en"
+    },
+    "relatedFullTweets": [
+      {
+        "id": "2000671547380404606",
+        "userId": "39289455",
+        "text": "Voice AI is going to explode in 2026...",
+        "fullText": "Voice AI is going to explode in 2026. Here's what I'm seeing...",
+        "truncated": true,
+        "entities": {
+          "hashtags": [],
+          "symbols": [],
+          "urls": [],
+          "user_mentions": []
+        },
+        "medias": [
+          {
+            "id_str": "2000671542464704512",
+            "type": "photo",
+            "media_url_https": "https://pbs.twimg.com/media/G8PQKvjXcAAupvN.jpg",
+            "url": "https://t.co/d6ATSgNWTD",
+            "sizes": {
+              "large": { "h": 2048, "w": 1536, "resize": "fit" }
+            }
+          }
+        ],
+        "favoriteCount": 1166,
+        "retweetCount": 134,
+        "createdAt": "2025-12-15T20:57:22.000Z",
+        "updatedAt": "2025-12-16T11:33:11.311Z",
+        "bookmarkCount": 865,
+        "viewCount": 106742,
+        "quoteCount": 58,
+        "replyCount": 216,
+        "conversationId": "2000671547380404606",
+        "user": {
+          "id": "39289455",
+          "name": "Allie K. Miller",
+          "screenName": "alliekmiller",
+          "followersCount": 78246
+        }
+      }
+    ]
+  }
+}
+```
+
 ## Data Fields
 
 ### `twitterUser` Object
@@ -131,7 +219,11 @@ Common change fields:
 
 ### `status` Object (Tweet)
 
-Full tweet object when a new tweet is posted:
+Full tweet object when a new tweet is posted.
+
+**Note:** The `status` object in both `user-update` and `user-full-tweet` messages uses the same standard format below. However, items in the `relatedFullTweets` array use a different extended format with additional fields.
+
+**Standard format (used in both user-update and user-full-tweet status):**
 
 | Field                       | Type           | Description                            |
 | --------------------------- | -------------- | -------------------------------------- |
@@ -149,6 +241,48 @@ Full tweet object when a new tweet is posted:
 | `favorite_count`            | number         | Number of likes                        |
 | `retweeted_status`          | object         | Original tweet if this is a retweet    |
 | `lang`                      | string         | Language code                          |
+
+**Extended format (items in relatedFullTweets array only):**
+
+Items in the `relatedFullTweets` array have additional fields beyond the standard format:
+
+| Field                      | Type           | Description                                                                      |
+| -------------------------- | -------------- | -------------------------------------------------------------------------------- |
+| `id`                       | string         | Tweet ID                                                                         |
+| `userId`                   | string         | User ID who posted                                                               |
+| `text`                     | string         | Original tweet text if retweet, otherwise tweet text (may be truncated)          |
+| `fullText`                 | string         | Original full text if retweet of long tweet, otherwise complete untruncated text |
+| `truncated`                | boolean        | Whether the text is truncated                                                    |
+| `createdAt`                | string         | ISO 8601 timestamp                                                               |
+| `updatedAt`                | string         | ISO 8601 timestamp of last update                                                |
+| `entities`                 | object         | Hashtags, symbols, URLs, mentions (same as standard)                             |
+| `medias`                   | array \| null  | Array of media objects (photos, videos)                                          |
+| `inReplyToStatusIdStr`     | string \| null | ID of tweet being replied to                                                     |
+| `inReplyToUserIdStr`       | string \| null | ID of user being replied to                                                      |
+| `inReplyToUserScreenName`  | string \| null | Username being replied to                                                        |
+| `quotedStatusIdStr`        | string \| null | ID of quoted tweet                                                               |
+| `quotedUserIdStr`          | string \| null | ID of user whose tweet was quoted                                                |
+| `quotedUserScreenName`     | string \| null | Username of quoted tweet author                                                  |
+| `retweetedStatusIdStr`     | string \| null | ID of retweeted tweet                                                            |
+| `retweetedUserIdStr`       | string \| null | ID of original tweet author (for retweets)                                       |
+| `retweetedUserScreenName`  | string \| null | Username of original tweet author (for retweets)                                 |
+| `retweetedStatusCreatedAt` | string \| null | Timestamp of original tweet (for retweets)                                       |
+| `favoriteCount`            | number         | Number of likes                                                                  |
+| `retweetCount`             | number         | Number of retweets                                                               |
+| `replyCount`               | number         | Number of replies                                                                |
+| `quoteCount`               | number         | Number of quote tweets                                                           |
+| `viewCount`                | number \| null | Number of views (if available)                                                   |
+| `bookmarkCount`            | number \| null | Number of bookmarks (if available)                                               |
+| `conversationId`           | string         | ID of the conversation thread                                                    |
+| `mentionedUsers`           | array          | Array of user objects mentioned in the tweet                                     |
+| `user`                     | object         | Full user object of the tweet author                                             |
+| `notetweetEntities`        | object         | Extended entities for long-form tweets (Note)                                    |
+
+### `relatedFullTweets` Array
+
+Array of full tweet objects that provide context for the main tweet. Each object uses the extended format (see table above) with additional fields beyond the standard status format.
+
+This allows you to display complete conversation context without additional API calls.
 
 ### `entities` Object
 
@@ -198,8 +332,10 @@ Full tweet object when a new tweet is posted:
 
 ## Example Client Implementation
 
+### Basic Implementation (Webapp)
+
 ```javascript
-const ws = new WebSocket('ws://localhost:8080/ws')
+const ws = new WebSocket('ws://localhost:8080/ws/my-client-id')
 
 // Connection opened
 ws.addEventListener('open', (event) => {
@@ -258,6 +394,9 @@ ws.addEventListener('error', (error) => {
 4. **Memory Management**: Clean up old messages to prevent memory leaks
 5. **Error Logging**: Log all errors and connection issues for debugging
 6. **Heartbeat**: Implement ping/pong to detect dead connections
+7. **Handle Both Message Types** (API users): The `user-update` arrives first (fast), then `user-full-tweet` arrives with complete context. Design your UI to handle both:
+   - Show tweet immediately from `user-update`
+   - Enhance with context when `user-full-tweet` arrives
 
 ## Troubleshooting
 
@@ -277,3 +416,9 @@ ws.addEventListener('error', (error) => {
 
 - Some fields may be `null` if data is unavailable
 - Always check for field existence before accessing nested properties
+
+### Not Receiving Full Tweet Data
+
+- `user-full-tweet` messages are **only sent to API users** (requires API authentication)
+- `user-full-tweet` is **only sent when needed** (truncated tweets, replies, or quotes)
+- Simple standalone tweets will NOT trigger a `user-full-tweet` message
