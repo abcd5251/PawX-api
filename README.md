@@ -228,4 +228,4 @@ We have labeled about 10,000 Twitter accounts as KOLs — accounts with large fo
 
 
 ### Futher information
-Please visit [Foxhole Bot](https://foxhole.bot/discover) for more information.
+Please visit [PawX AI](https://pawx.ai/) for more information.
