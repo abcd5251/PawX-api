@@ -29,7 +29,7 @@ Receive <500 ms updates on user activity, tweet interactions, and network shifts
 Monitor keywords, track trends, discover engaged users, and visualize engagement data.
 
 ## Base URL
-- https://foxhole.bot/api/v1
+- https://app.pawx.ai/api/v1
 
 ## Authentication
 - All requests require an API key in the header:
@@ -49,7 +49,7 @@ Monitor keywords, track trends, discover engaged users, and visualize engagement
   - userId (array, optional): Comma-separated user IDs.
 - Example:
   ```bash
-  curl -i -H "X-API-Key: YOUR-API-KEY" "https://foxhole.bot/api/v1/twitterUsers/info?screenName=elonmusk,VitalikButerin&userId=2259434528,902926941413453824"
+  curl -i -H "X-API-Key: YOUR-API-KEY" "https://app.pawx.ai/api/v1/twitterUsers/info?screenName=elonmusk,VitalikButerin&userId=2259434528,902926941413453824"
   ```
 - Sample response :
    ```bash
@@ -65,7 +65,7 @@ Monitor keywords, track trends, discover engaged users, and visualize engagement
   - createdBefore (string, optional): ISO 8601 timestamp.
 - Example:
   ```bash
-  curl -i -H "X-API-Key: YOUR-API-KEY" "https://foxhole.bot/api/v1/twitterUsers/stored-tweets?userId=2259434528,902926941413453824&createdAfter=2025-08-11T12:00:00Z&createdBefore=2025-08-11T23:59:59Z"
+  curl -i -H "X-API-Key: YOUR-API-KEY" "https://app.pawx.ai/api/v1/twitterUsers/stored-tweets?userId=2259434528,902926941413453824&createdAfter=2025-08-11T12:00:00Z&createdBefore=2025-08-11T23:59:59Z"
   ```
 - Sample response :
   ```bash
@@ -78,7 +78,7 @@ Monitor keywords, track trends, discover engaged users, and visualize engagement
   - id (array, required): Comma-separated tweet IDs.
 - Example:
   ```bash
-  curl -H "X-API-Key: YOUR-API-KEY" "https://foxhole.bot/api/v1/twitterUsers/tweets?id=20,1950452968655851759"
+  curl -H "X-API-Key: YOUR-API-KEY" "https://app.pawx.ai/api/v1/twitterUsers/tweets?id=20,1950452968655851759"
   ```
 - Sample response :
   ```bash
@@ -93,7 +93,7 @@ Monitor keywords, track trends, discover engaged users, and visualize engagement
   - keywords (array<string>, required)
 - Example:
   ```bash
-  curl -X POST "https://foxhole.bot/api/v1/keywordMonitors" \
+  curl -X POST "https://app.pawx.ai/api/v1/keywordMonitors" \
     -H "Content-Type: application/json" \
     -H "X-API-Key: YOUR-API-KEY" \
     -d '{"name":"uxlink tweets","keywords":["@uxlink"]}'
@@ -110,7 +110,7 @@ Monitor keywords, track trends, discover engaged users, and visualize engagement
   - slug (string, required)
 - Example:
   ```bash
-  curl -X GET "https://foxhole.bot/api/v1/keywordMonitors/uxlink-tweets" -H "X-API-Key: YOUR-API-KEY"
+  curl -X GET "https://app.pawx.ai/api/v1/keywordMonitors/uxlink-tweets" -H "X-API-Key: YOUR-API-KEY"
   ```
 - Sample response :
   ```bash
@@ -124,7 +124,7 @@ Monitor keywords, track trends, discover engaged users, and visualize engagement
   - slug (string, required)
 - Example:
   ```bash
-  curl -X GET "https://foxhole.bot/api/v1/keywordMonitors/uxlink-tweets/users" -H "X-API-Key: YOUR-API-KEY"
+  curl -X GET "https://app.pawx.ai/api/v1/keywordMonitors/uxlink-tweets/users" -H "X-API-Key: YOUR-API-KEY"
   ```
 - Sample response :
   ```bash
@@ -142,7 +142,7 @@ Monitor keywords, track trends, discover engaged users, and visualize engagement
   - limit (integer, optional)
 - Example:
   ```bash
-  curl -X GET "https://foxhole.bot/api/v1/keywordMonitors/uxlink-tweets/tweets?createdAfter=2025-01-01T00:00:00Z&createdBefore=2025-08-11T12:22:06.000Z&limit=20" \
+  curl -X GET "https://app.pawx.ai/api/v1/keywordMonitors/uxlink-tweets/tweets?createdAfter=2025-01-01T00:00:00Z&createdBefore=2025-08-11T12:22:06.000Z&limit=20" \
     -H "X-API-Key: YOUR-API-KEY"
   ```
 - Sample response :
@@ -161,7 +161,7 @@ Monitor keywords, track trends, discover engaged users, and visualize engagement
   - limit (integer, optional)
 - Example:
   ```bash
-  curl -i -H "X-API-Key: YOUR-API-KEY" "https://foxhole.bot/api/v1/twitterUsers/44196397/tweet-timestamps?createdAfter=2025-01-01T00:00:00Z&createdBefore=2025-06-21T23:59:59Z&limit=200"
+  curl -i -H "X-API-Key: YOUR-API-KEY" "https://app.pawx.ai/api/v1/twitterUsers/44196397/tweet-timestamps?createdAfter=2025-01-01T00:00:00Z&createdBefore=2025-06-21T23:59:59Z&limit=200"
   ```
 - Sample response :
   ```bash
@@ -180,7 +180,7 @@ Monitor keywords, track trends, discover engaged users, and visualize engagement
   - limit (integer, optional)
 - Example:
   ```bash
-  curl -i -H "X-API-Key: YOUR-API-KEY" "https://foxhole.bot/api/v1/twitterUsers/tweets/1943602916683592131/referencing-tweets?createdAfter=2025-01-01T00:00:00Z&createdBefore=2025-08-21T23:59:59Z&minKolFollowers=3&limit=200"
+  curl -i -H "X-API-Key: YOUR-API-KEY" "https://app.pawx.ai/api/v1/twitterUsers/tweets/1943602916683592131/referencing-tweets?createdAfter=2025-01-01T00:00:00Z&createdBefore=2025-08-21T23:59:59Z&minKolFollowers=3&limit=200"
   ```
 - Sample response :
   ```bash
@@ -196,7 +196,7 @@ Monitor keywords, track trends, discover engaged users, and visualize engagement
   - minKolFollowers (integer, optional)
 - Example:
   ```bash
-  curl -i -H "X-API-Key: YOUR-API-KEY" "https://foxhole.bot/api/v1/twitterUsers/tweets/1921467596810915939/referencing-counts?minKolFollowers=1"
+  curl -i -H "X-API-Key: YOUR-API-KEY" "https://app.pawx.ai/api/v1/twitterUsers/tweets/1921467596810915939/referencing-counts?minKolFollowers=1"
   ```
 - Sample response :
   ```bash
@@ -211,7 +211,7 @@ Monitor keywords, track trends, discover engaged users, and visualize engagement
   - type (string, required): `Top` or `Latest`. `Top` returns the most discussed posts, and `Latest` returns the newest posts.
 - Example:
   ```bash
-  curl -i -H "X-API-Key: YOUR-API-KEY" "https://foxhole.bot/api/v1/search?q=btc&type=Top"
+  curl -i -H "X-API-Key: YOUR-API-KEY" "https://app.pawx.ai/api/v1/search?q=btc&type=Top"
   ```
 - Sample response :
   ```bash
