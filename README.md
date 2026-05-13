@@ -56,9 +56,12 @@ Monitor keywords, track trends, discover engaged users, and visualize engagement
    [{"id":"44196397","name":"Elon Musk","screenName":"elonmusk","location":"","description":"https://t.co/9qhgzJ69UQ","website":"","followersCount":226879181,"friendsCount":1215,"createdAt":"2009-06-02T20:12:29.000Z","favouritesCount":157297,"verified":true,"statusesCount":86597,"mediaCount":3608,"profileBannerUrl":"https://pbs.twimg.com/profile_banners/44196397/1739948056","profileImageUrlHttps":"https://pbs.twimg.com/profile_images/1936002956333080576/kqqe2iWO_normal.jpg","isKol":true,"kolFollowersCount":6024,"deletedAt":null,"protectedAt":null,"avgKolFollowerInfluence":516},{"id":"295218901","name":"vitalik.eth","screenName":"VitalikButerin","location":"Earth","description":"I choose balance. First-level balance.\n\nmi pinxe lo crino tcati\n\nhttps://t.co/gCQrmCb0ih","website":"","followersCount":5825812,"friendsCount":507,"createdAt":"2011-05-08T16:03:03.000Z","favouritesCount":9207,"verified":false,"statusesCount":21141,"mediaCount":0,"profileBannerUrl":"https://pbs.twimg.com/profile_banners/295218901/1740846090","profileImageUrlHttps":"https://pbs.twimg.com/profile_images/1895872023944937472/Uoyc5-p8_normal.jpg","isKol":true,"kolFollowersCount":6560,"deletedAt":null,"protectedAt":null,"avgKolFollowerInfluence":540},{"id":"2259434528","name":"Cobie","screenName":"cobie","location":"","description":"price cheerleader and escrow custodian. @echodotxyz","website":"","followersCount":828325,"friendsCount":1207,"createdAt":"2013-12-23T21:36:58.000Z","favouritesCount":12506,"verified":true,"statusesCount":71456,"mediaCount":6793,"profileBannerUrl":"https://pbs.twimg.com/profile_banners/2259434528/1740538085","profileImageUrlHttps":"https://pbs.twimg.com/profile_images/1955773696565719040/zVpm_8at_normal.jpg","isKol":true,"kolFollowersCount":5645,"deletedAt":null,"protectedAt":null,"avgKolFollowerInfluence":568},{"id":"902926941413453824","name":"CZ 🔶 BNB","screenName":"cz_binance","location":"","description":"@BNBchain\n@YZiLabs\n@GiggleAcademy\n@binance","website":"http://www.binance.com","followersCount":10233838,"friendsCount":1877,"createdAt":"2017-08-30T16:12:13.000Z","favouritesCount":17228,"verified":true,"statusesCount":6957,"mediaCount":877,"profileBannerUrl":"https://pbs.twimg.com/profile_banners/902926941413453824/1597864552","profileImageUrlHttps":"https://pbs.twimg.com/profile_images/1961440580279336960/PiiIs8Lh_normal.jpg","isKol":true,"kolFollowersCount":5570,"deletedAt":null,"protectedAt":null,"avgKolFollowerInfluence":529}]
    ```
 
-### 2) Get stored tweets (optional time range)
+### 2) Get stored tweets (recent 6 months data, 1 month max per request)
 - GET /twitterUsers/stored-tweets
 - Purpose: Return stored tweets for the specified users, optionally filtered by a createdAt time window.
+- Important notes:
+  - Stored tweet data is only available for roughly the most recent 6+ months.
+  - For `get stored tweets`, please request no more than a 1-month time window per call. Larger ranges may return too much data and can overload the response.
 - Query parameters:
   - userId (array, required): Comma-separated user IDs.
   - createdAfter (string, optional): ISO 8601 timestamp.
@@ -74,6 +77,8 @@ Monitor keywords, track trends, discover engaged users, and visualize engagement
 ### 3) Get tweets by IDs
 - GET /twitterUsers/tweets
 - Purpose: Fetch tweets by their IDs.
+- Important note:
+  - Tweet retrieval is limited to roughly the most recent 6+ months of available tweet data.
 - Query parameters:
   - id (array, required): Comma-separated tweet IDs.
 - Example:
@@ -203,7 +208,7 @@ Monitor keywords, track trends, discover engaged users, and visualize engagement
   {"replies":5,"quoteRetweets":2,"retweets":3,"total":10}
   ```
 
-### 11) Search Twitter posts by keyword
+### 11) Search Twitter posts by keyword (Paid feature; contact us for access)
 - GET /search
 - Purpose: Search Twitter posts by keyword.
 - Query parameters:
@@ -221,11 +226,15 @@ Monitor keywords, track trends, discover engaged users, and visualize engagement
 ## Notes
 - Timestamps are ISO 8601 (e.g., `2025-08-11T16:55:09.000Z`).
 - Some fields may be null depending on the tweet or user context.
+- Tweet-related data in this API is generally limited to roughly the most recent 6+ months.
+- When using `GET /twitterUsers/stored-tweets`, keep each request within a 1-month time range to avoid oversized responses.
 
 ### What is kolFollowersCount?
 
 We have labeled about 10,000 Twitter accounts as KOLs — accounts with large followings and strong reputations. When these KOLs follow an account or like a post, it increases the post’s perceived reliability.
 
 
-### Futher information
+### Further information
 Please visit [PawX AI](https://pawx.ai/) for more information.
+
+If you have any questions or would like to get in touch, please join our Telegram group: [PAWX_AI](https://t.me/pawx_ai).
